@@ -18,6 +18,11 @@ def footer():
     return json.dumps(pageName)
 # please create an API to footer that contains the name of the page(organika)
 
+products = []
+
+def fix_id(obj):
+    obj["id"]= str(obj["_id"])
+
 @app.get("/api/products")
 def products():
     products = []
@@ -26,8 +31,10 @@ def products():
 @app.post("/api/products")
 def save_products():
     item = request.get_json()
+    #products.append(item
+    db.products.insert_one(item)
     print(item)
-    return json.dumps(item)
+    return json.dumps(fix_id (item))
 
 @app.put("/api/products/<int:index>")
 def update_products(index):
